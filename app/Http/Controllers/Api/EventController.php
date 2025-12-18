@@ -27,12 +27,12 @@ class EventController extends Controller
         $validator = Validator::make($request->all(), [
             'title'       => 'required|string|max:255',
             'description' => 'required',
-            'start_time'  => 'required|date_format:Y-m-d H:i:s', // Format Tanggal+Jam
+            'start_time'  => 'required|date_format:Y-m-d H:i:s',
             'end_time'    => 'required|date_format:Y-m-d H:i:s|after:start_time',
             'location'    => 'required|string',
             'quota'       => 'required|integer',
             'price'       => 'required|integer',
-            'kategori_id' => 'required|integer', // Wajib diisi (misal: 1)
+            'kategori_id' => 'required|integer',
             'banner'      => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 

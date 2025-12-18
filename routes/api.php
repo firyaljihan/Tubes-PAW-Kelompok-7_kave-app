@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\KategoriController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
@@ -21,12 +22,21 @@ Route::post('/register', [AuthController::class, 'registerMahasiswa']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
-    Route::apiResource('events', EventController::class);
+    Route::get('/categories', [KategoriController::class, 'index']);
 
     Route::prefix('admin')->group(function () {
-
         Route::post('/create-penyelenggara', [AdminController::class, 'createPenyelenggara']);
+        Route::post('/kategori', [KategoriController::class, 'store']);
+        Route::put('/kategori/{id}', [KategoriController::class, 'update']);
+        Route::delete('/kategori/{id}', [KategoriController::class, 'destroy']);
+    });
 
+    Route::prefix('events')->group(function () {
+        Route::get('/getAllEvent', [EventController::class, 'index']);
+        Route::post('/addEvent', [EventController::class, 'store']);     // Tambah
+        Route::get('/event/{id}', [EventController::class, 'show']);   // Detail
+        Route::post('/updateEvent/{id}', [EventController::class, 'update']);
+        Route::delete('/event/{id}', [EventController::class, 'destroy']); // Hapus
     });
 });
 
