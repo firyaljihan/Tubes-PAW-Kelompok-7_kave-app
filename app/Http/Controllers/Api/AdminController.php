@@ -10,8 +10,15 @@ use Illuminate\Support\Facades\Validator;
 
 class AdminController extends Controller
 {
+
     public function createPenyelenggara(Request $request)
     {
+        if (! $request->user() instanceof Admin) {
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Akses Ditolak! Hanya Admin yang boleh membuat akun Penyelenggara.'
+        ], 403);
+    }
         $validator = Validator::make($request->all(), [
             'nama_penyelenggara' => 'required|string|max:255',
             'email'              => 'required|email|unique:penyelenggaras,email',
@@ -26,7 +33,6 @@ class AdminController extends Controller
             ], 422);
         }
 
-        // 2. Simpan ke Database
         $penyelenggara = Penyelenggara::create([
             'nama_penyelenggara' => $request->nama_penyelenggara,
             'email'              => $request->email,

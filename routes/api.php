@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\AdminController;
+use App\Http\Controllers\Api\EventController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,8 +21,12 @@ Route::post('/register', [AuthController::class, 'registerMahasiswa']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
+    Route::apiResource('events', EventController::class);
+
+    Route::prefix('admin')->group(function () {
+
+        Route::post('/create-penyelenggara', [AdminController::class, 'createPenyelenggara']);
+
+    });
 });
 
-Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
-    Route::post('/create-penyelenggara', [AdminController::class, 'createPenyelenggara']);
-});
