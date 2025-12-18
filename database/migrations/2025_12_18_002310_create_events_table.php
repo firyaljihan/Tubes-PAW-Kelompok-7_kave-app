@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -13,6 +12,23 @@ return new class extends Migration
     {
         Schema::create('events', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
+            $table->text('description');
+            $table->string('banner')->nullable();
+            $table->dateTime('start_time');
+            $table->dateTime('end_time');
+            $table->string('location');
+            $table->integer('quota');
+            $table->integer('price')->default(0);
+            $table->enum('status', ['draft', 'pending', 'published', 'rejected', 'done'])->default('draft');
+            $table->foreignId('penyelenggara_id')
+                ->constrained('penyelenggaras')
+                ->onDelete('cascade');
+            $table->foreignId('kategori_id')
+                ->constrained('kategoris');
+            $table->foreignId('approved_by')
+                ->nullable()
+                ->constrained('admins');
             $table->timestamps();
         });
     }
